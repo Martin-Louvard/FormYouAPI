@@ -1,2 +1,0 @@
-class CategoryFormationJoinTable < ApplicationRecord
-end
