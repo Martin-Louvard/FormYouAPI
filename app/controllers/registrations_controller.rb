@@ -1,23 +1,15 @@
 class RegistrationsController < Devise::RegistrationsController
+
+  respond_to :json
+
   
-    def render_resource(resource)
-      if resource.errors.empty?
-        render json: resource
-      else
-        validation_error(resource)
-      end
-    end
-  
-    def validation_error(resource)
-      render json: {
-        errors: [
-          {
-            status: '400',
-            title: 'Bad Request',
-            detail: resource.errors,
-            code: '100'
-          }
-        ]
-      }, status: :bad_request
-    end
+  def create
+    build_resource(sign_up_params)
+
+    resource.save
+    sign_up(resource_name, resource) if resource.persisted?
+    render_resource(resource)
+  end
+
+    
   end
