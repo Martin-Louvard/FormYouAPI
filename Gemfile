@@ -2,6 +2,11 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.1'
+gem 'devise'
+gem 'devise-jwt'
+gem 'dotenv-rails', groups: [:development, :test]
+gem 'rack-cors'
+gem 'jsonapi-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.3'
