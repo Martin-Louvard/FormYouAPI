@@ -7,7 +7,7 @@ gem 'devise-jwt'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'rack-cors'
 gem 'jsonapi-rails'
-
+gem 'rails-erd', group: :development
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.3'
 # Use postgresql as the database for Active Record
