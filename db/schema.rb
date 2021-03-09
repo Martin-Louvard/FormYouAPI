@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_09_155543) do
+ActiveRecord::Schema.define(version: 2021_03_09_165820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,16 @@ ActiveRecord::Schema.define(version: 2021_03_09_155543) do
     t.index ["teacher_id"], name: "index_formations_on_teacher_id"
   end
 
+  create_table "formationsessions", force: :cascade do |t|
+    t.datetime "start_date"
+    t.bigint "formation_id", null: false
+    t.bigint "classroom_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["classroom_id"], name: "index_formationsessions_on_classroom_id"
+    t.index ["formation_id"], name: "index_formationsessions_on_formation_id"
+  end
+
   create_table "jwt_denylists", force: :cascade do |t|
     t.string "jti", null: false
     t.datetime "expired_at", null: false
@@ -55,21 +65,11 @@ ActiveRecord::Schema.define(version: 2021_03_09_155543) do
   create_table "participations", force: :cascade do |t|
     t.bigint "student_id", null: false
     t.integer "note"
-    t.bigint "session_id", null: false
+    t.bigint "formationsession_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["session_id"], name: "index_participations_on_session_id"
+    t.index ["formationsession_id"], name: "index_participations_on_formationsession_id"
     t.index ["student_id"], name: "index_participations_on_student_id"
-  end
-
-  create_table "sessions", force: :cascade do |t|
-    t.datetime "start_date"
-    t.bigint "formation_id", null: false
-    t.bigint "classroom_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["classroom_id"], name: "index_sessions_on_classroom_id"
-    t.index ["formation_id"], name: "index_sessions_on_formation_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 2021_03_09_155543) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "participations", "sessions"
-  add_foreign_key "sessions", "classrooms"
-  add_foreign_key "sessions", "formations"
+  add_foreign_key "formationsessions", "classrooms"
+  add_foreign_key "formationsessions", "formations"
+  add_foreign_key "participations", "formationsessions"
 end
